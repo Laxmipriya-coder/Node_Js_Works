@@ -1,0 +1,14 @@
+{
+  "name": "02_inbuild_modules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "custom_module": "node ./Custom_Modules/custom_module.js",
+    "core_modules": "node ./Core_Modules/core_modules.js"
+},
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
