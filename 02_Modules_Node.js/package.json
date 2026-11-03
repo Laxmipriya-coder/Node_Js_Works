@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "custom_module": "node ./Custom_Modules/custom_module.js",
-    "core_modules": "node ./Core_Modules/core_modules.js"
+    "core_modules": "node ./Core_Modules/core_modules.js",
+    "fsmodule":"node ./FS_Module/fsmodule.js"
 },
   "author": "",
   "license": "ISC",
