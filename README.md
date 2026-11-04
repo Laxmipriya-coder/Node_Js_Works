@@ -82,7 +82,8 @@ To build a strong foundation in Node.js, understand its core concepts, and conti
 - [x] History of Node.js
 - [x] Types of modules
 - [x] Custom modules
-- [ ] Core modules
-- [ ] File System (fs) module — in progress
+- [x] Core modules
+- [x] FS module
+- [x] Readline module - in Progress
       
 This repository is part of my continuous learning and hands-on practice with Node.js.
