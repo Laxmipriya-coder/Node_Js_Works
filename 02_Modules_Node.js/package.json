@@ -7,8 +7,9 @@
     "start": "node app.js",
     "custom_module": "node ./Custom_Modules/custom_module.js",
     "core_modules": "node ./Core_Modules/core_modules.js",
-    "fsmodule":"node ./FS_Module/fsmodule.js"
-},
+    "fsmodule": "node ./FS_Module/fsmodule.js",
+    "readline": "node ./Readline_Module/readlinemodule.js"
+  },
   "author": "",
   "license": "ISC",
   "type": "commonjs"
