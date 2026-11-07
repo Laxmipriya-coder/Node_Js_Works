@@ -25,7 +25,7 @@ async function filemanagement() {
             ReadFile();
             break;
         case "3":
-            console.log("Update a file");
+            UpdateFile();
             break;
         case "4":
             console.log("Delete a file");
@@ -38,6 +38,8 @@ async function filemanagement() {
 
 filemanagement();
 
+
+// CREATE A FILE
 async function FileRead() {
     const filname = await getInput("Enter a FileName : ");
     if (Number(filname[0])) {
@@ -74,9 +76,9 @@ async function FileRead() {
     }
 }
 
+// READ THE FILE
 async function ReadFile() {
     const filname = await getInput("Enter a FileName : ");
-
     try {
         if (fs.existsSync(`./${filname}.txt`)) {
             const data = fs.readFileSync(`./${filname}.txt`, "utf-8");
@@ -91,5 +93,55 @@ async function ReadFile() {
         console.log("Something Went Wrong .... Please try again.........");
     }
 
+    rl.close();
+}
+
+// UPDATE THE FILE
+async function UpdateFile() {
+    const files = fs.readdirSync("./", { withFileTypes: true });
+    const textFiles = files
+        .filter(file => file.isFile() && file.name.endsWith(".txt"))
+        .map(file => file.name);
+
+    if (textFiles.length === 0) {
+        console.log("No text files available to update.");
+        rl.close();
+        return;
+    }
+    console.log("\nAvailable Files:");
+    textFiles.forEach((file, index) => {
+        console.log(`${index + 1}. ${file}`);
+    });
+    const fileName = await getInput(`Enter file Name .txt`);
+    if (!textFiles.includes(fileName)) {
+        console.log("File Does Not Exist");
+        rl.close();
+        return;
+    }
+    try {
+        const newData = await getInput("Enter New Data: ");
+        let choice;
+        do {
+            choice = await getInput("Do you want to keep old data? yes/no: ");
+            choice = choice.toLowerCase();
+            if (choice !== "yes" && choice !== "no") {
+                console.log("Invalid Input. Please enter yes or no.");
+            }
+
+        } while (choice !== "yes" && choice !== "no");
+        if (choice === "yes") {
+            fs.appendFileSync(`./${fileName}`, "\n" + newData);
+        }
+        else {
+            fs.writeFileSync(`./${fileName}`, newData);
+        }
+        console.log("\nFile Updated Successfully!");
+        const updatedData = fs.readFileSync(`./${fileName}`, "utf-8");
+        console.log("\nUpdated File Data:");
+        console.log(updatedData);
+    }
+    catch (error) {
+        console.log("Something Went Wrong .... Please try again.........");
+    }
     rl.close();
 }
