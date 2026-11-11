@@ -1,7 +1,6 @@
 [
-    {
-        "id":101,
-        "name":"Sundari",
-        "age":23
-    }
+  {
+    "title": "Hii everyone",
+    "completed": false
+  }
 ]
