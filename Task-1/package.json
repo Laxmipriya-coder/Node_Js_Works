@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "Todolist" : "node CLITodolist.js"
+    "Todolist" : "node Todolist.js"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,12 @@
+{
+  "name": "task-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "notes": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
