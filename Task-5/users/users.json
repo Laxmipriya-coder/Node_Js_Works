@@ -1,3 +1,9 @@
 [
-    
+  {
+    "name": "laxmi",
+    "age": 21,
+    "email": "smita@gmail.com",
+    "pass": "Laxmi@123",
+    "id": 1794592759296
+  }
 ]
