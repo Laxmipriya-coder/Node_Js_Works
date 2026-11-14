@@ -80,6 +80,7 @@ const server = http.createServer((req, res) => {
             body += ele;
         });
         req.on("end", () => {
+            // array of user object
             const users = JSON.parse(fs.readFileSync("./users/users.json", "utf8"));
             const newData = JSON.parse(body);
             const user = users.find((u) => u.id === id);
@@ -97,14 +98,10 @@ const server = http.createServer((req, res) => {
     }
 
     // DELETE USERS
-    else if (req.method === "DELETE" && req.url === "/deleteuser") {
-        let body = "";
-        req.on("data", (data) => {
-            body += data.toString();
-        });
-        req.on("end", () => {
-            try {
-                const { id } = JSON.parse(body);
+    else if (req.method === "DELETE" && req.url.startsWith("/deleteuser/")) {
+       
+               try {
+                const  id  = req.url.split("/")[2]
                 const allusers = JSON.parse(fs.readFileSync("./users/users.json", "utf8"));
                 const userIndex = allusers.findIndex(
                     (user) => user.id == id
@@ -126,7 +123,6 @@ const server = http.createServer((req, res) => {
                 });
                 res.end("Failed to delete user: " + error.message);
             }
-        });
     }
     else {
         res.writeHead(404, { "Content-Type": "application/json" });
