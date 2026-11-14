@@ -28,7 +28,9 @@ const server = http.createServer((req, res) => {
             const newUser = JSON.parse(body);
             // VALIDATE EMAIL ID 
             if (!validateEmail(newUser.email)) {
-                res.writeHead(400, { "Content-Type": "application/json" });
+                res.writeHead(400, {
+                    "Content-Type": "application/json"
+                });
                 res.end(JSON.stringify({
                     message: "Invalid Email, User not Register"
                 }));
@@ -36,7 +38,9 @@ const server = http.createServer((req, res) => {
             }
             // VALIDATE THE PASSWORD
             if (!validatePassword(newUser.pass)) {
-                res.writeHead(400, { "Content-Type": "application/json" });
+                res.writeHead(400, {
+                    "Content-Type": "application/json"
+                });
                 res.end(JSON.stringify({
                     message: "Invalid Password"
                 }))
@@ -46,7 +50,9 @@ const server = http.createServer((req, res) => {
             // CHECK IF EMAIL ALREADY EXISTS
             for (let i = 0; i < data.length; i++) {
                 if (data[i].email === newUser.email) {
-                    res.writeHead(400, { "Content-Type": "application/json" });
+                    res.writeHead(400, {
+                        "Content-Type": "application/json"
+                    });
                     res.end(JSON.stringify({
                         message: "Email is already registered"
                     }));
@@ -57,11 +63,69 @@ const server = http.createServer((req, res) => {
             data.push(newUser);
 
             fs.writeFileSync("./users/users.json", JSON.stringify(data, null, 2));
-            res.writeHead(201, { "Content-Type": "application/json" });
+            res.writeHead(201, {
+                "Content-Type": "application/json"
+            });
             res.end(JSON.stringify({
                 message: "Registration Completed Successfully",
                 data: newUser
             }));
+        });
+    }
+    // UPDATE USERS (PUT METHOD)
+    else if (req.method === "PUT" && req.url.startsWith("/updateuser/")) {
+        const id = Number(req.url.split("/")[2]);
+        let body = "";
+        req.on("data", (ele) => {
+            body += ele;
+        });
+        req.on("end", () => {
+            const users = JSON.parse(fs.readFileSync("./users/users.json", "utf8"));
+            const newData = JSON.parse(body);
+            const user = users.find((u) => u.id === id);
+            if (user) {
+                user.email = newData.email;
+                user.name = newData.name;
+                user.pass = newData.pass;
+                fs.writeFileSync("./users/users.json", JSON.stringify(users, null, 2));
+                res.end("User Updated Successfully");
+            }
+            else {
+                res.end("User Not Found");
+            }
+        });
+    }
+
+    // DELETE USERS
+    else if (req.method === "DELETE" && req.url === "/deleteuser") {
+        let body = "";
+        req.on("data", (data) => {
+            body += data.toString();
+        });
+        req.on("end", () => {
+            try {
+                const { id } = JSON.parse(body);
+                const allusers = JSON.parse(fs.readFileSync("./users/users.json", "utf8"));
+                const userIndex = allusers.findIndex(
+                    (user) => user.id == id
+                );
+                if (userIndex === -1) {
+                    res.writeHead(404);
+                    res.end("User not found");
+                    return;
+                }
+                allusers.splice(userIndex, 1);
+                fs.writeFileSync("./users/users.json", JSON.stringify(allusers, null, 2));
+                res.writeHead(200);
+                res.end("User deleted successfully");
+            }
+            catch (error) {
+                console.log("Delete Error:", error);
+                res.writeHead(500, {
+                    "Content-Type": "text/plain"
+                });
+                res.end("Failed to delete user: " + error.message);
+            }
         });
     }
     else {
