@@ -80,14 +80,13 @@ const server = http.createServer((req, res) => {
             body += ele;
         });
         req.on("end", () => {
-            // array of user object
             const users = JSON.parse(fs.readFileSync("./users/users.json", "utf8"));
             const newData = JSON.parse(body);
             const user = users.find((u) => u.id === id);
             if (user) {
                 user.email = newData.email;
                 user.name = newData.name;
-                user.pass = newData.pass;
+                user.pass = newData.pass; 
                 fs.writeFileSync("./users/users.json", JSON.stringify(users, null, 2));
                 res.end("User Updated Successfully");
             }
