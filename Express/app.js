@@ -26,11 +26,11 @@ app.put("/update",(req,res)=>{
 })
 
 // DELETE Request
-app.delete("/delete",(req,res)=>{
-    res.json({
-        message:"Hello From Delete Method"
-    })
-})
+// app.delete("/delete",(req,res)=>{
+//     res.json({
+//         message:"Hello From Delete Method"
+//     })
+// })
 
 
 app.listen(8090,()=>{
